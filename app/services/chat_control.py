@@ -1,12 +1,14 @@
-import re
+from aiogram import Bot
+
 from storages.base_storage import Storage
 
 
 class ChatControlService:
 
-    def __new__(cls, storage: Storage = None):
+    def __new__(cls, storage: Storage = None, bot: Bot = None):
         if not hasattr(cls, '_instance'):
             cls.storage = storage
+            cls.bot = bot
             cls._instance = super().__new__(cls)
         return cls._instance
 

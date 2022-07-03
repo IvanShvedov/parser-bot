@@ -7,6 +7,11 @@ from services.chat_control import ChatControlService
 from handlers.chat import echo
 
 config = Config(CONFIG_YAML)
+
+bot = Bot(token=config.API_TOKEN)
+dp = Dispatcher(bot)
+dp.register_message_handler(echo, commands=['hi'])
+
 storage = PostgreStorage(
     host = config.DBHOST,
     port = config.DBPORT,
@@ -14,12 +19,8 @@ storage = PostgreStorage(
     password = config.DBPASSWORD,
     dbname=config.DBNAME
 )
-chat_service = ChatControlService(storage=storage)
+chat_service = ChatControlService(storage=storage, bot=bot)
 
-
-bot = Bot(token=config.API_TOKEN)
-dp = Dispatcher(bot)
-dp.register_message_handler(echo, commands=['hi'])
 
 async def on_startup(dispatcher, url=None, cert=None):
     await storage.connect()
