@@ -4,7 +4,7 @@ env
 *.log
 db.sqlite3
 *.yml
-
+*.yaml
 # Byte-compiled / optimized / DLL files
 **/__pycache__
 *.pyc
