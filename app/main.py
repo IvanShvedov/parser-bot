@@ -4,7 +4,7 @@ import asyncio
 from config import Config
 from CONSTS import CONFIG_YAML
 from storages.postgres import PostgreStorage
-from services.chat_control import ChatControl
+from services.chat_control import ChatControlService
 
 
 config = Config(CONFIG_YAML)
@@ -15,7 +15,7 @@ storage = PostgreStorage(
     password = config.DBPASSWORD,
     dbname=config.DBNAME
 )
-chat_service = ChatControl(storage=storage)
+chat_service = ChatControlService(storage=storage)
 
 bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
