@@ -1,4 +1,4 @@
-from aiogram import Bot, Dispatcher, executor
+from aiogram import Bot, Dispatcher, executor, types
 
 
 from config import Config
@@ -20,8 +20,8 @@ dp = Dispatcher(bot)
 
 
 @dp.message_handler(commands=['start', 'hi'])
-async def echo(message):
-    await message.reply(message.text)
+async def echo(message: types.Message):
+    await bot.copy_message(chat_id='-1001544120674', from_chat_id = message.chat.id, message_id = message.message_id)
 
 
 if __name__ == '__main__':
