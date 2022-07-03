@@ -3,13 +3,21 @@ from aiogram import Bot, Dispatcher, executor
 
 from config import Config
 from CONSTS import CONFIG_YAML
-from app.storages.postgres import PostgreStorage
+from storages.postgres import PostgreStorage
+
 
 config = Config(CONFIG_YAML)
-storage = PostgreStorage()
+storage = PostgreStorage(
+    host = config.DBHOST,
+    port = config.DBPORT,
+    username = config.DBUSER,
+    password = config.DBPASSWORD,
+    dbname=config.DBNAME
+)
 
 bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
+
 
 @dp.message_handler(commands=['start', 'hi'])
 async def echo(message):

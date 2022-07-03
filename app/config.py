@@ -9,7 +9,12 @@ class Config:
     __slots__ = [
         '_path',
         'API_TOKEN',
-        'LOG_LEVEL'
+        'LOG_LEVEL',
+        'DBPORT',
+        'DBUSER',
+        'DBPASSWORD',
+        'DBNAME',
+        'DBHOST'
     ]
 
     def __init__(self, yaml_file: str):
