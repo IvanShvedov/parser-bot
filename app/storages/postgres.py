@@ -5,7 +5,7 @@ from storages.base_storage import Storage
 
 class PostgreStorage(Storage):
 
-    __slots__ = ['url', '_database']
+    _database = None
 
     def __init__(
         self,
