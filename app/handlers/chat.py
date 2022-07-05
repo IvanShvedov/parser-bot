@@ -12,8 +12,17 @@ async def add_new_chat(message: types.Message):
             chat_id=message.chat.id    
         )
         return
-    res = await chat_service.create(chat_id)
-    print(res)
+    try:
+        await chat_service.create(chat_id)
+        chat_service.bot.send_message(
+            text=f"{chat_id} успешно добавлен",
+            chat_id=message.chat.id
+        )
+    except Exception as e:
+        chat_service.bot.send_message(
+            text="Что то пошло не так",
+            chat_id=message.chat.id
+        )
     # message_id = await chat_service.bot.copy_message(
     #     chat_id='-1001544120674',
     #     from_chat_id = message.chat.id,

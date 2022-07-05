@@ -1,4 +1,7 @@
+import logging
+
 from aiogram import Bot, Dispatcher, executor
+from aiogram.contrib.middlewares.logging import LoggingMiddleware
 
 from config import Config
 from CONSTS import CONFIG_YAML
@@ -8,8 +11,11 @@ from handlers.chat import add_new_chat
 
 config = Config(CONFIG_YAML)
 
+logging.basicConfig(level=logging.DEBUG)
+
 bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
+dp.middleware.setup(LoggingMiddleware())
 dp.register_message_handler(add_new_chat, commands=['add'])
 
 storage = PostgreStorage(
