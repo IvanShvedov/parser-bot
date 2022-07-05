@@ -2,12 +2,13 @@ import logging
 
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
+from app.handlers.chat import delete_chat
 
 from config import Config
 from CONSTS import CONFIG_YAML
 from storages.postgres import PostgreStorage
 from services.chat_control import ChatControlService
-from handlers.chat import add_new_chat
+from handlers.chat import add_new_chat, delete_chat
 
 config = Config(CONFIG_YAML)
 
@@ -17,6 +18,7 @@ bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
 dp.middleware.setup(LoggingMiddleware())
 dp.register_message_handler(add_new_chat, commands=['add'])
+dp.register_message_handler(delete_chat, commands=['delete'])
 
 storage = PostgreStorage(
     host = config.DBHOST,
