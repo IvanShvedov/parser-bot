@@ -4,13 +4,13 @@ from config import Config
 from CONSTS import CONFIG_YAML
 from storages.postgres import PostgreStorage
 from services.chat_control import ChatControlService
-from handlers.chat import echo
+from handlers.chat import add_new_chat
 
 config = Config(CONFIG_YAML)
 
 bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
-dp.register_message_handler(echo, commands=['hi'])
+dp.register_message_handler(add_new_chat, commands=['add'])
 
 storage = PostgreStorage(
     host = config.DBHOST,

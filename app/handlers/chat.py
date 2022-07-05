@@ -3,11 +3,19 @@ from aiogram import types
 from services.chat_control import ChatControlService
 
 
-async def echo(message: types.Message):
+async def add_new_chat(message: types.Message):
     chat_service = ChatControlService()
-    res = await chat_service.create('qwer')
-    message_id = await chat_service.bot.copy_message(
-        chat_id='-1001544120674',
-        from_chat_id = message.chat.id,
-        message_id = message.message_id
-    )
+    chat_id = message.get_args()
+    if chat_id is None or chat_id == "":
+        await chat_service.bot.send_message(
+            text="Отправь мне id чата через команду /add и я добавлю его в базу\n - /add 12345678910",
+            chat_id=message.chat.id    
+        )
+        return
+    res = await chat_service.create(chat_id)
+    print(res)
+    # message_id = await chat_service.bot.copy_message(
+    #     chat_id='-1001544120674',
+    #     from_chat_id = message.chat.id,
+    #     message_id = message.message_id
+    # )
