@@ -1,24 +1,29 @@
+from ast import Subscript
 import logging
 
 from aiogram import Bot, Dispatcher, executor
 from aiogram.contrib.middlewares.logging import LoggingMiddleware
-from app.handlers.chat import delete_chat
 
 from config import Config
 from CONSTS import CONFIG_YAML
 from storages.postgres import PostgreStorage
 from services.chat_control import ChatControlService
+from services.subscription import SubscriptionService
 from handlers.chat import add_new_chat, delete_chat
+from handlers.sub import create_subscription, delete_subscription, on_new_message
 
 config = Config(CONFIG_YAML)
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 
 bot = Bot(token=config.API_TOKEN)
 dp = Dispatcher(bot)
 dp.middleware.setup(LoggingMiddleware())
 dp.register_message_handler(add_new_chat, commands=['add'])
-dp.register_message_handler(delete_chat, commands=['delete'])
+dp.register_message_handler(delete_chat, commands=['del'])
+dp.register_message_handler(create_subscription, commands=['subme'])
+dp.register_message_handler(delete_subscription, commands=['unsubme'])
+dp.register_message_handler(on_new_message, content_types=['text'])
 
 storage = PostgreStorage(
     host = config.DBHOST,
@@ -28,6 +33,7 @@ storage = PostgreStorage(
     dbname=config.DBNAME
 )
 chat_service = ChatControlService(storage=storage, bot=bot)
+subs_service = SubscriptionService(storage=storage, bot=bot)
 
 
 async def on_startup(dispatcher, url=None, cert=None):

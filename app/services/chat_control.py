@@ -1,7 +1,7 @@
 from aiogram import Bot
 
 from storages.base_storage import Storage
-from .queries import INSER_INTO_CHANNELS, DELETE_FROM_CHANNELS
+from .queries import INSERT_INTO_CHANNELS, DELETE_FROM_CHANNELS
 
 
 class ChatControlService:
@@ -14,9 +14,11 @@ class ChatControlService:
         return cls._instance
 
     async def create(self, chat_id: str):
-        res = await self.storage.create(INSER_INTO_CHANNELS.format(chat_id=chat_id))
+        res = await self.storage.create(INSERT_INTO_CHANNELS.format(chat_id=chat_id))
         return res
 
     async def delete(self, chat_id: str):
         res = await self.storage.delete(DELETE_FROM_CHANNELS.format(chat_id=chat_id))
         return res
+
+
