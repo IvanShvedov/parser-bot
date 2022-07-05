@@ -36,4 +36,4 @@ async def delete_subscription(message: types.Message):
 
 async def on_new_message(channel_post: types.Message):
     sub_service = SubscriptionService()
-    await sub_service.broadcast(channel_post.text)
+    await sub_service.broadcast(channel_post.text)    
