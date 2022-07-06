@@ -12,7 +12,7 @@ steps = [
         "DROP TABLE channels"    
     ),
     step(
-        "CREATE TABLE subs (id SERIAL, sub VARCHAR(15) UNIQUE, PRIMARY KEY (id))",
-        "DROP TABLE subs"
+        "CREATE TABLE channels_send (id SERIAL, channel VARCHAR(15) UNIQUE, PRIMARY KEY (id))",
+        "DROP TABLE channels_send"
     )
 ]

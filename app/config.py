@@ -14,7 +14,9 @@ class Config:
         'DBUSER',
         'DBPASSWORD',
         'DBNAME',
-        'DBHOST'
+        'DBHOST',
+        'API_ID',
+        'API_HASH'
     ]
 
     def __init__(self, yaml_file: str):
