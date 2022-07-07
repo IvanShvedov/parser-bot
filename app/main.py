@@ -11,7 +11,6 @@ from handlers.chat import add_new_chat, delete_chat, on_message
 
 config = Config(CONFIG_YAML)
 
-
 logging.basicConfig(level=logging.INFO)
 
 client = TelegramClient('test', config.API_ID, config.API_HASH)
@@ -20,15 +19,15 @@ client.add_event_handler(on_message, events.NewMessage)
 client.add_event_handler(
     add_new_chat,
     events.NewMessage(
-            func=lambda x: True if re.match(r'/add ', x.raw_text) else False
-        )
+        func=lambda x: True if re.match(r'/add ', x.raw_text) else False
     )
+)
 client.add_event_handler(
     delete_chat,
     events.NewMessage(
-            func=lambda x: True if re.match(r'/del ', x.raw_text) else False
-        )
+        func=lambda x: True if re.match(r'/del ', x.raw_text) else False
     )
+)
 
 storage = PostgreStorage(
     host = config.DBHOST,
@@ -37,7 +36,10 @@ storage = PostgreStorage(
     password = config.DBPASSWORD,
     dbname=config.DBNAME
 )
-chat_service = ChatControlService(storage=storage, client=client)
+chat_service = ChatControlService(
+    storage=storage,
+    client=client
+)
 
 
 if __name__ == '__main__':
