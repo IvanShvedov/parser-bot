@@ -8,7 +8,7 @@ from config import Config
 from CONSTS import CONFIG_YAML
 from storages.postgres import PostgreStorage
 from services.chat_control import ChatControlService
-from handlers.chat import add_new_chat, delete_chat
+from handlers.chat import add_new_chat, delete_chat, on_message
 
 config = Config(CONFIG_YAML)
 
@@ -23,10 +23,9 @@ dp.register_message_handler(delete_chat, commands=['del'])
 
 client = TelegramClient('test', config.API_ID, config.API_HASH)
 
-@client.on(events.NewMessage(chats=(-1001598702678)))
-async def on_message(event):
-    await bot.send_message(chat_id='-1001544120674', text=event.message.message)
+# @client.on(events.NewMessage(chats=(-1001598702678)))
 
+client.add_event_handler(on_message, events.NewMessage(chats=(-1001598702678)))
 
 storage = PostgreStorage(
     host = config.DBHOST,
