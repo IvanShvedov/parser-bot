@@ -1,4 +1,5 @@
 from telethon import TelegramClient
+import re
 
 from storages.base_storage import Storage
 from models.channel import ChannelDTO
@@ -26,6 +27,10 @@ class ChatControlService:
         res = await self.storage.get_all(SELECT_ALL_FROM_CHANNELS)
         channels = await self._parse(res)
         return channels
+
+    async def get_chat_id(self, event):
+        chat_id = re.sub(r'/del ', '', re.sub(r'/add ', '', event.raw_text))
+        return chat_id
 
     async def _parse(self, body):
         channels = []

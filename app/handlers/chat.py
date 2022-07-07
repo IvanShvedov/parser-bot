@@ -1,49 +1,28 @@
-from aiogram import types
+from cmath import log
+import logging
 
 from services.chat_control import ChatControlService
 
 
-async def add_new_chat(message: types.Message):
+async def add_new_chat(event):
     chat_service = ChatControlService()
-    chat_id = message.get_args()
-    if chat_id is None or chat_id == "":
-        await chat_service.bot.send_message(
-            text="Отправь мне id чата через команду /add и я добавлю его в базу\n - /add 12345678910",
-            chat_id=message.chat.id    
-        )
-        return
+    chat_id = await chat_service.get_chat_id(event)
     try:
         await chat_service.create(chat_id)
-        await chat_service.bot.send_message(
-            text=f"{chat_id} успешно добавлен",
-            chat_id=message.chat.id
-        )
+        e = await chat_service.client.get_entity('me')
+        await chat_service.client.send_message(entity=e, message=f'ID:{chat_id} успешно добавлен в базу')
     except Exception as e:
-        await chat_service.bot.send_message(
-            text="Что то пошло не так",
-            chat_id=message.chat.id
-        )
+        logging.error(msg=e)
 
-async def delete_chat(message: types.Message):
+async def delete_chat(event):
     chat_service = ChatControlService()
-    chat_id = message.get_args()
-    if chat_id is None or chat_id == "":
-        await chat_service.bot.send_message(
-            text="Отправь мне id чата через команду /del и я удалю его из базы\n - /del 12345678910",
-            chat_id=message.chat.id    
-        )
-        return
+    chat_id = await chat_service.get_chat_id(event)
     try:
         await chat_service.delete(chat_id)
-        await chat_service.bot.send_message(
-            text=f"{chat_id} успешно удален",
-            chat_id=message.chat.id
-        )
+        e = await chat_service.client.get_entity('me')
+        await chat_service.client.send_message(entity=e, message=f'ID:{chat_id} успешно удален из базы')
     except Exception as e:
-        await chat_service.bot.send_message(
-            text="Что то пошло не так",
-            chat_id=message.chat.id
-        )
+        logging.error(msg=e)
 
 
 async def on_message(event):

@@ -1,5 +1,5 @@
 import logging
-import asyncio
+import re
 
 from telethon import events, TelegramClient
 
@@ -17,6 +17,18 @@ logging.basicConfig(level=logging.INFO)
 client = TelegramClient('test', config.API_ID, config.API_HASH)
 
 client.add_event_handler(on_message, events.NewMessage)
+client.add_event_handler(
+    add_new_chat,
+    events.NewMessage(
+            func=lambda x: True if re.match(r'/add ', x.raw_text) else False
+        )
+    )
+client.add_event_handler(
+    delete_chat,
+    events.NewMessage(
+            func=lambda x: True if re.match(r'/del ', x.raw_text) else False
+        )
+    )
 
 storage = PostgreStorage(
     host = config.DBHOST,

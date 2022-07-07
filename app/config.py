@@ -8,8 +8,6 @@ class Config:
 
     __slots__ = [
         '_path',
-        'API_TOKEN',
-        'LOG_LEVEL',
         'DBPORT',
         'DBUSER',
         'DBPASSWORD',
