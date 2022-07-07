@@ -45,6 +45,8 @@ async def delete_chat(message: types.Message):
             chat_id=message.chat.id
         )
 
+
 async def on_message(event):
     chat_service = ChatControlService()
-    await chat_service.bot.send_message(chat_id='-1001544120674', text=event.message.message)
+    e = await chat_service.client.get_entity(-1001544120674)
+    await chat_service.client.send_message(entity=e, message=event.message.message)

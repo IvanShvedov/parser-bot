@@ -6,6 +6,8 @@ db.sqlite3
 *.yml
 *.yaml
 Makefile
+*.session
+*.session-journal
 # Byte-compiled / optimized / DLL files
 **/__pycache__
 *.pyc
