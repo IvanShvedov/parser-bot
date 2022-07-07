@@ -1,4 +1,3 @@
-from cmath import log
 import logging
 
 from services.chat_control import ChatControlService
